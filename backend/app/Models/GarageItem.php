@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasImageVariants;
+use App\Observers\ContentObserver;
 use Database\Factories\GarageItemFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 
+#[ObservedBy(ContentObserver::class)]
 #[Fillable(['name', 'category', 'description', 'installed_at', 'hotspot_x', 'hotspot_y', 'position'])]
 class GarageItem extends Model implements HasMedia
 {

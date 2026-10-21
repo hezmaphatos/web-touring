@@ -30,6 +30,16 @@ php artisan serve         # http://localhost:8000
 
 Fill `backend/.env` before `composer setup` if you use MySQL (`DB_*`), and set `REVALIDATE_SECRET` to a long random string.
 
+Then, still in `backend/`:
+
+```sh
+php artisan db:seed           # placeholder trips and settings (safe to re-run)
+php artisan app:create-admin  # creates the admin for ADMIN_EMAIL, asks for a password
+php artisan queue:work --timeout=600   # terminal 3: image variants and frontend revalidation
+```
+
+The admin panel is at http://localhost:8000/admin. Uploaded photos show up on the site once the queue worker has generated their variants (AVIF encoding takes a few seconds per photo).
+
 Frontend (terminal 2):
 
 ```sh

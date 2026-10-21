@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Observers\ContentObserver;
 use Database\Factories\TripStopFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+#[ObservedBy(ContentObserver::class)]
 #[Fillable(['trip_id', 'position', 'name', 'province', 'lat', 'lng', 'km_marker', 'note'])]
 class TripStop extends Model
 {

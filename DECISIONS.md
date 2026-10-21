@@ -22,3 +22,12 @@ One line each: decision, reason.
 - Days on the road: inclusive date range; a missing end date counts as one day; undated trips add none. Provinces are counted case- and whitespace-insensitively.
 - Parameterless GET endpoints use single-action controllers without Form Requests (nothing to validate); the slug is constrained by the route pattern.
 - Seeded stops carry their province (a geographic fact, needed for the provinces stat). The planned example uses two stops named "Contoh titik awal/akhir".
+- Frontend revalidation tags: trip, stop, photo and video changes send `trips` + `site` (the site payload carries total km); garage sends `garage`; settings send `site`. The job is unique per tag set until processed and waits 3 s, so one trip save with many stops sends one request.
+- Media changes revalidate when their last conversion (`lqip`) completes, so the site updates only once images are ready.
+- `app:create-admin` requires a password of at least 12 characters, asked twice; running it again changes the password. Only the user whose email equals `ADMIN_EMAIL` may enter the panel.
+- Coordinates and YouTube links are validated through small Laravel rule classes (`App\Rules`) that call `CoordinateService` / `YoutubeService`, keeping Filament resources as configuration.
+- The Filament dashboard keeps only the account widget (the Filament info widget links to Filament's own site).
+- Livewire's temporary upload limit is raised to 25 MB (`config/livewire.php`) to match the spec; production PHP needs `upload_max_filesize`/`post_max_size` of at least 30M.
+- Settings photo uploads preview their public 480px variant in the admin (custom `getUploadedFileUsing`); originals are never given a URL.
+- Admin delete notifications say "Dihapus" to keep the verb pairs consistent ("Simpan"/"Tersimpan", "Publikasikan"/"Dipublikasikan").
+- The photo/video "stop" select lists the trip's saved stops; new stops appear after the trip is saved (helper text says so).

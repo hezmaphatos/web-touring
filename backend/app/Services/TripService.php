@@ -12,6 +12,8 @@ class TripService
         private MediaService $media,
         private MarkdownService $markdown,
         private RevalidationService $cache,
+        private CoordinateService $coordinates,
+        private YoutubeService $youtube,
     ) {}
 
     /**
@@ -113,6 +115,47 @@ class TripService
         }
 
         return $options;
+    }
+
+    /**
+     * Admin form state for a stop: lat/lng become one pasteable "lat, lng" field.
+     */
+    public function stopFormData(array $data): array
+    {
+        $data['coordinates'] = $this->coordinates->format($data['lat'] ?? null, $data['lng'] ?? null);
+
+        return $data;
+    }
+
+    /**
+     * Stop data to store: the "lat, lng" field is split into columns.
+     */
+    public function stopSaveData(array $data): array
+    {
+        $parsed = $this->coordinates->parse($data['coordinates'] ?? null);
+        unset($data['coordinates']);
+
+        if ($parsed !== null) {
+            $data['lat'] = $parsed['lat'];
+            $data['lng'] = $parsed['lng'];
+        }
+
+        return $data;
+    }
+
+    /**
+     * Video data to store: the ID is always parsed from the link.
+     */
+    public function videoSaveData(array $data): array
+    {
+        $data['youtube_id'] = $this->youtube->parseId($data['youtube_url'] ?? null);
+
+        return $data;
+    }
+
+    public function publish(int $tripId): void
+    {
+        Trip::query()->findOrFail($tripId)->update(['status' => 'published']);
     }
 
     /**

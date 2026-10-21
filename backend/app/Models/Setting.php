@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Observers\ContentObserver;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 
+#[ObservedBy(ContentObserver::class)]
 #[Fillable(['key', 'value'])]
 class Setting extends Model
 {

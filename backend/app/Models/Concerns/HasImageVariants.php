@@ -43,7 +43,9 @@ trait HasImageVariants
 
     protected function addImageCollection(string $name): MediaCollection
     {
+        // Explicit disk: Filament uploads otherwise fall back to its own default disk.
         return $this->addMediaCollection($name)
+            ->useDisk((string) config('media-library.disk_name'))
             ->singleFile()
             ->acceptsMimeTypes(MediaService::MIME_TYPES);
     }

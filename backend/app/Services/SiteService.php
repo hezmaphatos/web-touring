@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\ProcessSettingPhoto;
 use App\Models\Setting;
 
 class SiteService
@@ -58,6 +59,35 @@ class SiteService
         }
 
         return $settings;
+    }
+
+    /**
+     * Saves every setting key. A replaced photo has its old files removed and new variants queued.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    public function saveSettings(array $data): void
+    {
+        $current = $this->settings();
+
+        foreach (Setting::KEYS as $key) {
+            $value = $data[$key] ?? null;
+            $value = is_string($value) ? $this->filled($value) : null;
+
+            Setting::query()->updateOrCreate(['key' => $key], ['value' => $value]);
+
+            if (! in_array($key, Setting::PHOTO_KEYS, true) || $value === $current[$key]) {
+                continue;
+            }
+
+            if ($current[$key] !== null) {
+                $this->media->deleteStoredImage($current[$key]);
+            }
+
+            if ($value !== null) {
+                ProcessSettingPhoto::dispatch($value);
+            }
+        }
     }
 
     private function filled(?string $value): ?string

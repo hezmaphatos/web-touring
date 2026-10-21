@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Observers\ContentObserver;
 use Database\Factories\TripVideoFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+#[ObservedBy(ContentObserver::class)]
 #[Fillable(['trip_id', 'stop_id', 'position', 'youtube_url', 'youtube_id', 'title'])]
 class TripVideo extends Model
 {
