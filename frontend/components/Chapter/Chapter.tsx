@@ -3,7 +3,7 @@ import type { Photo, Trip, Video } from "@/lib/types";
 import { ChapterFooter } from "./ChapterFooter";
 import { KmMarker } from "./KmMarker";
 import { MediaFlow, placePhotos } from "./MediaFlow";
-import { RideMode } from "./RideMode";
+import { RideModeLazy } from "./RideModeLazy";
 import { TitleBlock } from "./TitleBlock";
 import styles from "./Chapter.module.css";
 
@@ -70,7 +70,7 @@ export function Chapter({ trip, ghosts }: { trip: Trip; ghosts: Ghosts }) {
         ))}
 
       <div className={styles.story}>
-        <RideMode trip={trip} />
+        <RideModeLazy trip={trip} />
 
         {trip.description_html && (
           <div className="wrap">

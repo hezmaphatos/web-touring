@@ -6,6 +6,7 @@ import styles from "@/components/Ledger/Ledger.module.css";
 import { getTrips } from "@/lib/api";
 import { applyFilter, parseFilter } from "@/lib/filters";
 import { formatKm } from "@/lib/format";
+import { loadSite } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Trip",
@@ -13,10 +14,11 @@ export const metadata: Metadata = {
 };
 
 export default async function TripsPage({ searchParams }: PageProps<"/trip">) {
-  const trips = await getTrips();
+  const [trips, site] = await Promise.all([getTrips(), loadSite()]);
   const filter = parseFilter(await searchParams);
   const shown = applyFilter(trips, filter).reverse();
-  const totalKm = trips.reduce((sum, trip) => sum + (trip.distance_km ?? 0), 0);
+  // Totals come from the backend, like every other number on the site.
+  const totalKm = site.total_km;
   const years = [...new Set(trips.map((trip) => trip.year).filter((year) => year !== null))].sort(
     (a, b) => b - a,
   );

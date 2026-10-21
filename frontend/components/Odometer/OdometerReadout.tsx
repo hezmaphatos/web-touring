@@ -1,4 +1,3 @@
-import { TransitionLink } from "@/components/Transition/TransitionLink";
 import { formatKm, odometerDigits } from "@/lib/format";
 import styles from "./OdometerReadout.module.css";
 
@@ -10,11 +9,7 @@ export function OdometerReadout({ km }: { km: number }) {
   const digits = odometerDigits(km);
 
   return (
-    <TransitionLink
-      href="/statistik"
-      className={styles.readout}
-      aria-label={`Total ${formatKm(km)} km`}
-    >
+    <span className={styles.readout} role="img" aria-label={`Total ${formatKm(km)} km`}>
       <span className={styles.frame} data-odometer-readout aria-hidden="true">
         {digits.split("").map((digit, index) => (
           <span key={index} className={styles.digit}>
@@ -25,6 +20,6 @@ export function OdometerReadout({ km }: { km: number }) {
       <span className={styles.unit} aria-hidden="true">
         km
       </span>
-    </TransitionLink>
+    </span>
   );
 }

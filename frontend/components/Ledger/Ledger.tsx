@@ -74,7 +74,12 @@ export function Ledger({ trips, preview = false }: Props) {
                 </span>
               </TransitionLink>
               {isOpen && (
-                <div id={panelId} className={styles.expanded} data-chapter={trip.type}>
+                <div
+                  id={panelId}
+                  className={styles.expanded}
+                  data-chapter={trip.type}
+                  data-surface="dark"
+                >
                   {trip.cover && (
                     <TripImage image={trip.cover} sizes="100vw" className={styles.expandedImage} />
                   )}

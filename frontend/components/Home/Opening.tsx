@@ -2,10 +2,15 @@
 
 import { useEffect, useRef } from "react";
 import { odometerDigits } from "@/lib/format";
-import { Flip, gsap } from "@/lib/motion/gsap";
+import { Flip } from "gsap/Flip";
+import { gsap } from "@/lib/motion/gsap";
 import { isLowEndDevice } from "@/lib/motion/hooks";
 import { OPENING_SESSION_KEY } from "@/lib/motion/opening";
 import styles from "./Opening.module.css";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(Flip);
+}
 
 /** Full wheel cycles each strip turns before landing; the units strip turns the most. */
 const UNITS_CYCLES = 4;

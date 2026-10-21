@@ -3,7 +3,7 @@
 One line each: decision, reason.
 
 - Laravel 13 on PHP 8.4 (portable build at `C:\Users\natan\tools\php84`), not the XAMPP PHP 8.2: the spec asks for the latest stable Laravel and PHP 8.3+, and Laravel 13 requires PHP 8.3.
-- Local development and tests use SQLite; `.env.example` defaults to MySQL: the XAMPP MariaDB on the dev machine does not start (InnoDB redo log error) and holds unrelated databases, so it was left untouched. Code stays driver-agnostic.
+- Local development runs on MySQL 8.0 from Laragon (database `logbook`); the XAMPP MariaDB on the dev machine does not start (InnoDB redo log error) and holds unrelated databases, so it was left untouched. Phases 1–7 were built on SQLite before Laragon was available. Tests default to in-memory SQLite and also pass on MySQL (`logbook_test`); code stays driver-agnostic (driver-specific SQL only in `StatsService`).
 - Removed Laravel's Vite/Tailwind scaffold and the Boost `AGENTS.md`/`CLAUDE.md` from `backend`: the backend serves only the API and Filament (which ships its own assets), and the spec does not use Boost.
 - No `composer dev` script: Laravel 13's `artisan dev` needs Node tooling in the backend; the README runs `artisan serve` and `queue:work` in two terminals instead.
 - Added `NEXT_PUBLIC_SITE_URL` to the frontend env: metadata, sitemap and robots need the public origin.
@@ -70,3 +70,13 @@ One line each: decision, reason.
 - Statistics facts read as "number + plain label" rows ("612,5 kilometer ditempuh"); a missing highest point shows "–". Years without dates are left out of the km-per-year bars, with a hint when no trip is dated yet.
 - Next ride draws its dashed routes once on load (the shared route draw), instantly under reduced motion; the about page has no motion besides the page transition.
 - The about page shows the bike name as a link to the garage and the YouTube/Instagram links as plain sentences.
+- While the mobile menu is open, `main` and the footer are `inert`, so keyboard focus cannot wander behind the full-screen list.
+- The page-transition cover reveals itself after 6 s even if navigation stalls, so a slow or failed navigation never leaves the page covered.
+- `robots.txt` disallows `/api/` and `/media/` (the image proxy); the sitemap lists the fixed pages and every published trip with its cover image.
+- Fonts are self-hosted with `next/font/local`: Archivo and Newsreader variable fonts (OFL) subset to Latin and limited to the axis ranges in use (Archivo wght 500–900 with the full wdth 62–125; Newsreader wght 400–700, opsz 14–28). Only Archivo (76 KB) is preloaded; Newsreader loads when story text needs it. Before: 370 KB of preloaded font files.
+- Ride mode (map engine, d3, gauge) loads with `next/dynamic` after the chapter renders; a placeholder holds the strip's exact space, so it causes no layout shift.
+- `experimental.inlineCss` was tried and dropped: it improved FCP under applied throttling but lowered the default (simulated) Lighthouse score on the 30-photo chapter from 85–89 to 75–78, because the CSS is also duplicated into the RSC payload.
+- `MEDIA_URL` (optional) sets the public base URL of image variants, for a CDN or a separate static host; it defaults to `APP_URL/storage`.
+- Section 11 measurements (production build on the dev machine, chapter page with 30 photos, mobile): Lighthouse performance 85, 89 and 86 in three default (simulated) runs; accessibility, best practices and SEO 100. CLS 0 on every page at 360/768/1280/1920 px (404 page: 0.012). JS for `/trip/[slug]`: about 225 KB gzipped, no `three` (the 181 KB `three` chunk loads only on `/trip`, after a hover). Real-device LCP with 4x CPU and Lighthouse's network profile: 1.3 s.
+- Known gap: the simulated score swings between runs here (75–89) because `php artisan serve` is single-threaded and the machine runs several servers at once; measure again on the production host. With applied throttling (`--throttling-method=devtools`) the same page scored 83–91.
+- Section 13 checklist: admin create/edit/publish with stops, photos and YouTube reaches the site without a redeploy (feature test plus a manual queue-to-revalidate run); all section 5 routes exist with one motion moment each; the forbidden-list grep is clean (the only gradient is the spec's 404 chevron band); reduced-motion and low-end modes switch before first paint; public images carry no EXIF/GPS (test); backend tests (SQLite and MySQL), `tsc`, lint and `next build` pass; the README covers run, build and deploy.

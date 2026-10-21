@@ -32,14 +32,14 @@ class MediaPrivacyTest extends TestCase
         $this->assertArrayHasKey('GPSLatitude', exif_read_data($jpeg), 'fixture must carry GPS data');
 
         $trip = Trip::factory()->create(['slug' => 'dieng']);
-        $trip->addMedia($jpeg)->toMediaCollection('cover');
+        $media = $trip->addMedia($jpeg)->toMediaCollection('cover');
 
         $files = Storage::disk('public')->allFiles();
         $this->assertNotEmpty($files);
-        $this->assertContains('1/conversions/webp-800.webp', $files);
+        $this->assertContains("{$media['id']}/conversions/webp-800.webp", $files);
 
         if (function_exists('imageavif')) {
-            $this->assertContains('1/conversions/avif-800.avif', $files);
+            $this->assertContains("{$media['id']}/conversions/avif-800.avif", $files);
         }
 
         foreach ($files as $file) {

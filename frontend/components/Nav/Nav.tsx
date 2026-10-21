@@ -46,6 +46,11 @@ export function Nav({ siteName, totalKm }: { siteName: string; totalKm: number }
 
     gsap.killTweensOf(element);
 
+    // While the menu covers the page, everything behind it is out of reach (Tab included).
+    for (const behind of document.querySelectorAll("main, body > footer, footer")) {
+      behind.toggleAttribute("inert", open);
+    }
+
     if (open) {
       lenis.current?.stop();
       document.documentElement.style.overflow = "hidden";
