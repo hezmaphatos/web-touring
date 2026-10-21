@@ -1,0 +1,74 @@
+/* Hidden unless the boot script (or a client navigation) flags the opening. */
+.opening {
+  display: none;
+}
+
+:global(html[data-opening]) .opening {
+  display: block;
+}
+
+/* The nav readout stays hidden while the big odometer flies to it. */
+:global(html[data-opening]) :global([data-odometer-readout]) {
+  visibility: hidden;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: var(--hitam);
+  clip-path: inset(0% 0% 0% 0%);
+}
+
+.center {
+  position: fixed;
+  inset: 0;
+  z-index: 81;
+  display: grid;
+  place-items: center;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/*
+ * The big odometer is the nav readout scaled by --s, so after the Flip
+ * it lands on the readout with identical proportions.
+ */
+.frame {
+  --s: 7;
+  display: inline-flex;
+  gap: calc(1px * var(--s));
+  border: calc(3px * var(--s)) solid var(--hitam);
+  outline: calc(1px * var(--s)) solid var(--kapur);
+  background: var(--kapur);
+}
+
+.cell {
+  display: block;
+  overflow: hidden;
+  height: calc(14px * 1.2 * var(--s) + 1px * var(--s));
+  background: var(--hitam);
+}
+
+.strip {
+  display: block;
+}
+
+.digit {
+  display: block;
+  min-width: 1.05ch;
+  padding: calc(1px * var(--s)) calc(2px * var(--s)) 0;
+  color: var(--kapur);
+  font-size: calc(14px * var(--s));
+  font-weight: 600;
+  font-stretch: 87.5%;
+  line-height: 1.2;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 600px) {
+  .frame {
+    --s: 4;
+  }
+}

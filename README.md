@@ -55,3 +55,13 @@ npm run dev                  # http://localhost:3000
 cd backend && composer lint && composer test
 cd frontend && npm run lint && npm run typecheck && npm run build
 ```
+
+## Map data
+
+`frontend/public/geo/indonesia-admin1.topo.json` (about 130 KB) is Natural Earth 10m admin-1, filtered to Indonesia and simplified. To rebuild it:
+
+```sh
+curl -L -o ne_10m_admin_1.geojson https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_1_states_provinces.geojson
+
+npx mapshaper@0.6 ne_10m_admin_1.geojson -filter 'adm0_a3 === "IDN"' -filter-fields iso_3166_2,name -rename-layers provinces -simplify 45% keep-shapes -o format=topojson quantization=1e5 frontend/public/geo/indonesia-admin1.topo.json
+```

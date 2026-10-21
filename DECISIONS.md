@@ -47,3 +47,14 @@ One line each: decision, reason.
 - Landscape photos cycle full-bleed, 8 columns left, 8 columns right; portraits alternate 5 columns left/right with the caption beside, bottom-aligned. The cycle runs across the whole chapter.
 - The YouTube facade starts playback after the visitor's click (`autoplay=1` on the iframe that the click creates); nothing loads from YouTube's player before that.
 - Stop notes render after the kilometer post as the stop's text; the trip description is the opening text before the first stop.
+- Map base data: Natural Earth 10m admin-1 filtered to Indonesia, simplified to 45% with mapshaper (130 KB TopoJSON, 33 provinces); the command is in the README.
+- The map engine draws land once in a Mercator projection fitted to the visible trips and pans/zooms with a transform; routes are re-projected into screen space each frame so the 6px asphalt and the 10/14 dash keep their size at every zoom.
+- One mask (dash offset on a `pathLength=1` copy of the route) reveals asphalt and center line together; one-stop trips show only their stop and position marker until more stops are added.
+- Zoom never goes past the point where a third of the map's short side covers the trip, so a one-stop trip keeps its surroundings.
+- Home tour: the map is CSS-sticky and each trip is a real step in the page (headings and "Buka cerita" links stay in the document); ScrollTrigger eases the projection when a step crosses the middle. The overview step comes first.
+- Reduced-motion and low-end layouts are chosen before first paint: a tiny head script sets `data-lowend` (same test as `useLowEnd`) and `data-opening` (first home visit of the session), and CSS switches on them, so there is no layout shift.
+- Opening skip listens to pointer, key (except Tab), wheel and touchmove; the session flag is written when the sequence completes or is skipped, so an interrupted (unmounted) opening plays again.
+- The black screen "gives way" by closing to a horizontal line (clip-path inset to 50%), like a road's center line, while the odometer flies (GSAP Flip, scale mode) into the nav readout, whose cells use the same proportions.
+- `/peta`: plain wheel scrolls the page; Ctrl/⌘ + wheel (and trackpad pinch), the +/− buttons, or two fingers zoom; one finger scrolls on touch. Otherwise a full-viewport map would trap scrolling above the text list.
+- `/peta` keeps planned trips visible (dashed) regardless of the year scrubber, which only reveals published trips in their numbered order. Each route is a keyboard-focusable button; the text list below reuses the ledger.
+- Builds reuse Next's fetch cache in `.next/cache`; delete `.next/cache/fetch-cache` before a build if prerendered pages must reflect data changed since the last build (a running site is kept fresh by the revalidate webhook).

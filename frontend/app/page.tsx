@@ -1,25 +1,17 @@
-import { TransitionLink } from "@/components/Transition/TransitionLink";
+import { HomeTour } from "@/components/Home/HomeTour";
+import { LatestTrip } from "@/components/Home/LatestTrip";
+import { getMap } from "@/lib/api";
 import { loadSite } from "@/lib/site";
 
-// Placeholder until the map home (opening sequence and pinned map) lands.
-export default async function Home() {
-  const site = await loadSite();
+export default async function HomePage() {
+  const [site, map] = await Promise.all([loadSite(), getMap()]);
+  const trips = map.filter((trip) => trip.status === "published");
+  const latest = trips.at(-1);
 
   return (
-    <div className="wrap" style={{ paddingBlock: "48px 96px" }}>
-      <h1
-        style={{
-          fontSize: "var(--size-data)",
-          fontWeight: 900,
-          fontStretch: "75%",
-          lineHeight: 0.85,
-        }}
-      >
-        {site.site_name}
-      </h1>
-      <p style={{ marginTop: 24, fontSize: "1.25rem", fontWeight: 600 }}>
-        <TransitionLink href="/trip">Lihat semua trip</TransitionLink>
-      </p>
-    </div>
+    <>
+      <HomeTour siteName={site.site_name} totalKm={site.total_km} trips={trips} />
+      {latest && <LatestTrip trip={latest} />}
+    </>
   );
 }

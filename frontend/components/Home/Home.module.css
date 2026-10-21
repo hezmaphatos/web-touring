@@ -1,0 +1,232 @@
+/*
+ * Pinned map tour: the map is sticky under the nav, the steps scroll over it.
+ * List mode (reduced motion, low-end) lets the map sit still above a plain list.
+ */
+.tour {
+  --stage-height: calc(100svh - var(--nav-height) - var(--rule-width));
+  position: relative;
+}
+
+.stage {
+  position: sticky;
+  top: calc(var(--nav-height) + var(--rule-width));
+  height: var(--stage-height);
+  z-index: 0;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+.steps {
+  position: relative;
+  z-index: 1;
+  margin-top: calc(-1 * var(--stage-height));
+}
+
+.step {
+  display: flex;
+  align-items: flex-end;
+  min-height: var(--stage-height);
+  padding: var(--margin);
+  pointer-events: none;
+}
+
+.panel {
+  width: 100%;
+  padding: 18px 20px 20px;
+  border: var(--rule);
+  background: var(--beton);
+  pointer-events: auto;
+}
+
+@media (min-width: 900px) {
+  .step {
+    align-items: center;
+    padding-inline: var(--inset);
+  }
+
+  .panel {
+    width: min(38vw, 620px);
+    padding: 24px 28px 28px;
+  }
+}
+
+.siteName {
+  font-size: var(--size-h2);
+  font-weight: 900;
+  font-stretch: 75%;
+  line-height: 0.85;
+}
+
+.number {
+  font-size: 1rem;
+  font-weight: 600;
+  font-stretch: 87.5%;
+}
+
+.panel {
+  container-type: inline-size;
+}
+
+/* One line, as large as the panel allows (sized from font metrics), capped at 5rem. */
+.tripTitle {
+  margin-top: 6px;
+  overflow: hidden;
+  font-size: min(5rem, calc(100cqi / var(--fit-em)));
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dates {
+  margin-top: 14px;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-weight: 600;
+  font-stretch: 87.5%;
+}
+
+.bigKm {
+  margin-top: 10px;
+  font-size: var(--size-data);
+  font-weight: 600;
+  font-stretch: 87.5%;
+  line-height: 0.9;
+  white-space: nowrap;
+}
+
+.unit {
+  font-size: 0.35em;
+}
+
+.lead {
+  max-width: 34ch;
+  margin-top: 14px;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.open {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 10px 14px;
+  background: var(--hitam);
+  color: var(--kapur);
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .open:hover {
+    background: var(--marka);
+    color: var(--hitam);
+  }
+}
+
+.open:focus-visible {
+  background: var(--marka);
+  color: var(--hitam);
+}
+
+/* List mode (reduced motion or low-end): the map sits still above a plain list. */
+
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    position: relative;
+    top: 0;
+    height: 70svh;
+    border-bottom: var(--rule);
+  }
+
+  .steps {
+    margin-top: 0;
+  }
+
+  /* A plain ruled list, like the ledger: no boxes. */
+  .step,
+  .step:first-child {
+    min-height: 0;
+    padding: 0 var(--inset);
+    border-bottom: var(--rule);
+  }
+
+  .panel {
+    width: 100%;
+    padding: 18px 0 20px;
+    border: 0;
+    background: none;
+  }
+}
+
+:global(html[data-lowend]) .stage {
+  position: relative;
+  top: 0;
+  height: 70svh;
+  border-bottom: var(--rule);
+}
+
+:global(html[data-lowend]) .steps {
+  margin-top: 0;
+}
+
+/* A plain ruled list, like the ledger: no boxes. */
+:global(html[data-lowend]) .step,
+:global(html[data-lowend]) .step:first-child {
+  min-height: 0;
+  padding: 0 var(--inset);
+  border-bottom: var(--rule);
+}
+
+:global(html[data-lowend]) .panel {
+  width: 100%;
+  padding: 18px 0 20px;
+  border: 0;
+  background: none;
+}
+
+/* Latest trip */
+
+.latest {
+  border-top: var(--rule);
+}
+
+.latestLink {
+  display: block;
+  text-decoration: none;
+}
+
+.latestBand {
+  padding: 18px 0 0;
+}
+
+.latestLabel {
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-stretch: 87.5%;
+}
+
+.latestTitle {
+  container-type: inline-size;
+  overflow: hidden;
+  margin-top: 6px;
+  font-weight: 900;
+  line-height: 0.8;
+}
+
+.latestLine {
+  display: inline-block;
+  margin-left: -0.04em;
+  padding-block: 0.06em 0.02em;
+  font-size: calc(100cqi / var(--fit-em));
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.latestLink:focus-visible .latestBand {
+  outline: 4px solid var(--marka);
+  outline-offset: -8px;
+}
