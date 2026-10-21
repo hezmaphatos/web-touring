@@ -38,6 +38,15 @@ return [
             'report' => false,
         ],
 
+        // Original uploads. Never served: public images are re-encoded variants.
+        'originals' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private/originals'),
+            'visibility' => 'private',
+            'throw' => false,
+            'report' => false,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

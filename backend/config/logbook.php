@@ -12,4 +12,7 @@ return [
 
     'revalidate_secret' => env('REVALIDATE_SECRET'),
 
+    // Generate AVIF variants next to WebP when GD supports it.
+    'avif' => (bool) env('MEDIA_AVIF', true),
+
 ];
