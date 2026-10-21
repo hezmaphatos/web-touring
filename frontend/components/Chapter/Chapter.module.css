@@ -1,0 +1,432 @@
+/* Title block: the destination fitted to the width, on the chapter color. */
+
+.titleBlock {
+  padding-block: 20px 0;
+}
+
+.titleInner {
+  display: grid;
+  gap: 8px;
+}
+
+.tripNumber {
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-stretch: 87.5%;
+}
+
+.title {
+  container-type: inline-size;
+  overflow: hidden;
+  font-weight: 900;
+  line-height: 0.8;
+}
+
+.titleLine {
+  display: inline-block;
+  /* Optical alignment: pull the first letter's side bearing back to the column edge. */
+  margin-left: -0.04em;
+  padding-block: 0.06em 0.02em;
+  font-size: calc(100cqi / var(--fit-em));
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+/* One ruled row of data. Units are the labels. */
+
+.facts {
+  display: grid;
+  border-bottom: var(--rule);
+}
+
+/* Mobile: each fact is its own ruled row. From 768px they share one row. */
+.fact {
+  padding: 12px var(--margin) 8px;
+  font-size: clamp(1.75rem, 8vw, 4.75rem);
+  font-weight: 600;
+  font-stretch: 87.5%;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.fact + .fact {
+  border-top: var(--rule);
+}
+
+.unit {
+  font-size: 0.45em;
+}
+
+@media (min-width: 768px) {
+  .facts {
+    display: flex;
+    padding-inline: calc(var(--inset) - var(--margin));
+  }
+
+  /* Cells grow with their content: a date range needs more room than "3 hari". */
+  .fact {
+    flex: 1 1 auto;
+    padding-block: 18px 14px;
+    font-size: clamp(2rem, 3.6vw, 4.25rem);
+  }
+
+  .fact + .fact {
+    border-top: 0;
+    border-left: var(--rule);
+  }
+}
+
+.cover {
+  border-bottom: var(--rule);
+}
+
+/* A portrait cover is not blown up to full width: it takes 7 columns. */
+.coverPortrait {
+  padding-block: 40px 0;
+}
+
+@media (min-width: 768px) {
+  .coverPortrait > * {
+    width: calc((100% - 11 * var(--gutter)) * 7 / 12 + 6 * var(--gutter));
+  }
+}
+
+/* Story */
+
+.story {
+  padding-block: 56px 96px;
+}
+
+.prose {
+  max-width: 62ch;
+  font-family: var(--font-story);
+  font-size: var(--size-body);
+  font-weight: 400;
+  line-height: 1.6;
+  font-optical-sizing: auto;
+  font-variant-numeric: normal;
+}
+
+.prose > * + * {
+  margin-top: 1em;
+}
+
+.prose h2,
+.prose h3,
+.prose h4 {
+  margin-top: 1.6em;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 87.5%;
+  line-height: 1.1;
+}
+
+.prose h2 {
+  font-size: 1.75em;
+}
+
+.prose h3 {
+  font-size: 1.35em;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.25em;
+}
+
+.prose ul {
+  list-style: square;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose blockquote {
+  padding-left: 1em;
+  border-left: var(--rule);
+}
+
+.prose hr {
+  border: 0;
+  border-top: var(--rule);
+}
+
+.prose code {
+  font-family: inherit;
+  background: var(--kapur);
+  padding: 0 0.2em;
+}
+
+.stop {
+  margin-top: 96px;
+}
+
+.stop:first-of-type {
+  margin-top: 64px;
+}
+
+@media (min-width: 1024px) {
+  .prose,
+  .marker {
+    margin-left: calc((100% + var(--gutter)) / 12);
+  }
+}
+
+/* Kilometer post (patok KM): tall white post, chapter-color cap. */
+
+.marker {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.post {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  flex: none;
+  width: clamp(64px, 7vw, 92px);
+  min-height: clamp(116px, 12vw, 160px);
+  border: var(--rule);
+  background: var(--kapur);
+  color: var(--hitam);
+  text-align: center;
+}
+
+.postCap {
+  padding: 6px 0 4px;
+  border-bottom: var(--rule);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.postBody {
+  display: grid;
+  align-content: center;
+  padding: 8px 2px;
+}
+
+.postKm {
+  font-size: clamp(1.125rem, 1.8vw, 1.6rem);
+  font-weight: 800;
+  font-stretch: 75%;
+  line-height: 1;
+}
+
+.postUnit {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.markerText {
+  min-width: 0;
+}
+
+.stopName {
+  font-size: var(--size-h2);
+  font-weight: 900;
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.stopMeta {
+  margin-top: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-stretch: 87.5%;
+}
+
+.stopMeta:empty {
+  display: none;
+}
+
+/* Photo flow: natural aspect ratios, never a uniform grid. */
+
+.media {
+  display: grid;
+  gap: 56px;
+  margin-top: 56px;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
+.bleed {
+  width: 100%;
+}
+
+.placed {
+  display: grid;
+  gap: 10px;
+}
+
+.caption {
+  max-width: 48ch;
+  margin-top: 10px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.placed .caption {
+  margin-top: 0;
+}
+
+.bleedCaption {
+  max-width: calc(48ch + var(--inset));
+  padding-left: var(--inset);
+}
+
+@media (min-width: 768px) {
+  .media {
+    gap: 88px;
+  }
+
+  .placed {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+  }
+
+  .wideLeft .placedImage,
+  .wideLeft .caption {
+    grid-column: 1 / span 8;
+  }
+
+  .wideRight .placedImage,
+  .wideRight .caption {
+    grid-column: 5 / span 8;
+  }
+
+  .portraitLeft .placedImage {
+    grid-column: 1 / span 5;
+  }
+
+  .portraitLeft .caption {
+    grid-column: 6 / span 4;
+    align-self: end;
+  }
+
+  .portraitRight .placedImage {
+    grid-row: 1;
+    grid-column: 8 / span 5;
+  }
+
+  .portraitRight .caption {
+    grid-row: 1;
+    grid-column: 3 / span 5;
+    align-self: end;
+  }
+}
+
+/* Video: click-to-load facade in a thick black frame. */
+
+.videoRow {
+  display: block;
+}
+
+.video {
+  max-width: 1040px;
+}
+
+.videoFrame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border: 12px solid var(--hitam);
+  background: var(--hitam);
+}
+
+.videoButton,
+.videoEmbed {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.videoThumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.play {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  background: var(--marka);
+  color: var(--hitam);
+}
+
+.videoButton:hover .play,
+.videoButton:focus-visible .play {
+  background: var(--kapur);
+}
+
+@media (min-width: 1024px) {
+  .video {
+    width: calc((100% - 11 * var(--gutter)) * 8 / 12 + 7 * var(--gutter));
+  }
+}
+
+/* Pull quote: huge, full width, on the chapter color. */
+
+.quote {
+  margin-block: 96px 0;
+  padding-block: 48px 56px;
+}
+
+.quote p {
+  font-size: clamp(2.25rem, 7vw, 7.5rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+/* Previous and next trip */
+
+.neighbours {
+  border-top: var(--rule);
+}
+
+.neighbour {
+  display: grid;
+  gap: 4px;
+  padding: 18px var(--inset) 12px;
+  border-bottom: var(--rule);
+  text-decoration: none;
+}
+
+.neighbourLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  font-stretch: 87.5%;
+}
+
+.neighbourTitle {
+  overflow: hidden;
+  font-size: clamp(2.5rem, 10vw, 9rem);
+  font-weight: 900;
+  line-height: 0.86;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@media (hover: hover) {
+  .neighbour:hover {
+    background: var(--hitam);
+    color: var(--kapur);
+  }
+}
+
+.neighbour:focus-visible {
+  background: var(--marka);
+  outline-offset: -4px;
+}

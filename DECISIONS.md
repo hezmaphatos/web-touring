@@ -39,3 +39,11 @@ One line each: decision, reason.
 - The LQIP shows as a pixel mosaic (`image-rendering: pixelated` on the picture background) rather than a blur, which the anti-template list forbids.
 - Keyboard focus on a ledger row uses the yellow focus style; the chapter color is the hover state.
 - Undated trips show no year or km in the ledger (the cells stay empty, with screen-reader text).
+- Chapter title fit: the server sizes the line in CSS from Archivo 900's real glyph advances (`lib/fit/archivo-900.json`, extracted with fontTools) and container query units; the JS fit-text then corrects small differences after fonts load. Measured CLS on a chapter: 0.
+- The cover sits under the data row as the chapter's first photo (full-bleed when landscape, 7 columns when portrait); it is the LCP image and loads eagerly.
+- The pull quote sits after the middle stop (after the story text when there are no stops), on a band in the chapter color so it reads as full width.
+- The data row needs no labels: units carry the meaning ("612,5 km", "2.093 m", "3 hari"); screen readers get hidden `<dt>` labels. On phones each fact is its own ruled row.
+- The kilometer post's cap (chapter color) shows the stop's order along the route; a missing km marker shows "–".
+- Landscape photos cycle full-bleed, 8 columns left, 8 columns right; portraits alternate 5 columns left/right with the caption beside, bottom-aligned. The cycle runs across the whole chapter.
+- The YouTube facade starts playback after the visitor's click (`autoplay=1` on the iframe that the click creates); nothing loads from YouTube's player before that.
+- Stop notes render after the kilometer post as the stop's text; the trip description is the opening text before the first stop.
