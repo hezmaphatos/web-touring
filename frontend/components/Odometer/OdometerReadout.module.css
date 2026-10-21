@@ -1,0 +1,33 @@
+.readout {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.frame {
+  display: inline-flex;
+  border: 3px solid var(--hitam);
+  background: var(--kapur);
+  gap: 1px;
+}
+
+.digit {
+  display: block;
+  min-width: 1.05ch;
+  padding: 1px 2px 0;
+  background: var(--hitam);
+  color: var(--kapur);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-stretch: 87.5%;
+  line-height: 1.2;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.unit {
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-stretch: 87.5%;
+}

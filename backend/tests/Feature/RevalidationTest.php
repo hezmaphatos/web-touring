@@ -47,6 +47,19 @@ class RevalidationTest extends TestCase
         Queue::assertPushed(RevalidateFrontend::class, 3);
     }
 
+    public function test_uniqueness_lock_expires(): void
+    {
+        Queue::fake();
+
+        Trip::factory()->create();
+        Queue::assertPushed(RevalidateFrontend::class, 1);
+
+        // A lost job must not block revalidation forever.
+        $this->travel(61)->seconds();
+        Trip::factory()->create();
+        Queue::assertPushed(RevalidateFrontend::class, 2);
+    }
+
     public function test_no_job_without_a_frontend_url(): void
     {
         Queue::fake();

@@ -1,0 +1,8 @@
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  visibility: hidden;
+  background: var(--hitam);
+  clip-path: inset(0% 100% 0% 0%);
+}

@@ -1,0 +1,165 @@
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--beton);
+  color: var(--hitam);
+  font-family: var(--font-display);
+  font-size: var(--size-ui);
+  font-weight: 500;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ol,
+ul,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+ol,
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--marka);
+  color: var(--hitam);
+}
+
+/* Focus: 4px black outline, 3px offset. On dark blocks the focused element turns yellow. */
+:focus-visible {
+  outline: 4px solid var(--hitam);
+  outline-offset: 3px;
+}
+
+[data-surface="dark"] :focus-visible {
+  outline-color: var(--marka);
+  background: var(--marka);
+  color: var(--hitam);
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--margin);
+  top: 0;
+  z-index: 100;
+  padding: 12px 16px;
+  background: var(--marka);
+  color: var(--hitam);
+  font-weight: 700;
+  transform: translateY(-120%);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* Chapter colors. City trips have no color: they use the inverse. */
+[data-chapter] {
+  color: var(--kapur);
+}
+
+[data-chapter="coast"] {
+  background: var(--pantai);
+}
+
+[data-chapter="highland"] {
+  background: var(--gunung);
+}
+
+[data-chapter="forest"] {
+  background: var(--rimba);
+}
+
+[data-chapter="city"] {
+  background: var(--hitam);
+}
+
+/* Elements whose width follows scroll velocity (set by the flex-width effect). */
+[data-flex-width] {
+  font-variation-settings: "wdth" var(--wdth, 100);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}

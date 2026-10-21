@@ -1,0 +1,201 @@
+/* Filters */
+
+.filters {
+  display: grid;
+  gap: 8px;
+  padding-block: 0 24px;
+}
+
+.filterGroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 16px;
+  row-gap: 4px;
+}
+
+.filterLabel {
+  min-width: 4.5em;
+  font-size: var(--size-small);
+  font-weight: 600;
+}
+
+.filterList {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 16px;
+  row-gap: 4px;
+}
+
+.option {
+  display: inline-block;
+  padding-block: 4px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-stretch: 87.5%;
+  text-decoration: none;
+}
+
+.option[aria-current="true"] {
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 6px;
+}
+
+/* Ledger rows */
+
+.ledger {
+  border-top: var(--rule);
+}
+
+.item {
+  border-bottom: var(--rule);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "number year km"
+    "title title title";
+  column-gap: 16px;
+  align-items: baseline;
+  padding: 10px var(--inset) 6px;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.number {
+  grid-area: number;
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-stretch: 87.5%;
+}
+
+.title {
+  grid-area: title;
+  font-size: clamp(2.5rem, 11vw, 10rem);
+  font-weight: 900;
+  line-height: 0.86;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.year,
+.km {
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-stretch: 87.5%;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.year {
+  grid-area: year;
+  justify-self: end;
+}
+
+.km {
+  grid-area: km;
+  min-width: 5.5ch;
+}
+
+.unit {
+  font-size: 0.75em;
+}
+
+@media (min-width: 900px) {
+  .row {
+    grid-template-columns: 4ch minmax(0, 1fr) 5ch 8ch;
+    grid-template-areas: "number title year km";
+    column-gap: var(--gutter);
+    padding-block: 14px 6px;
+  }
+
+  .number {
+    align-self: start;
+    padding-top: 0.4em;
+    font-size: clamp(1.25rem, 1.6vw, 1.75rem);
+  }
+
+  .title {
+    font-size: clamp(4rem, 8.5vw, 10rem);
+  }
+
+  .year,
+  .km {
+    font-size: clamp(1.25rem, 1.8vw, 2rem);
+  }
+}
+
+/* The row switches to its chapter color instantly, like a sign flipping. */
+@media (hover: hover) {
+  .item[data-type="coast"] .row:hover {
+    background: var(--pantai);
+    color: var(--kapur);
+  }
+
+  .item[data-type="highland"] .row:hover {
+    background: var(--gunung);
+    color: var(--kapur);
+  }
+
+  .item[data-type="forest"] .row:hover {
+    background: var(--rimba);
+    color: var(--kapur);
+  }
+
+  .item[data-type="city"] .row:hover {
+    background: var(--hitam);
+    color: var(--kapur);
+  }
+}
+
+.row:focus-visible {
+  background: var(--marka);
+  color: var(--hitam);
+  outline-offset: -4px;
+}
+
+/* Page head and empty state */
+
+.head {
+  display: grid;
+  gap: 8px;
+  padding-block: 32px 24px;
+}
+
+.heading {
+  font-size: var(--size-h2);
+  font-weight: 900;
+  font-stretch: 75%;
+  line-height: 0.85;
+  letter-spacing: -0.01em;
+}
+
+.count {
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-stretch: 87.5%;
+}
+
+.empty {
+  padding-block: 32px 64px;
+  border-top: var(--rule);
+}
+
+.empty p {
+  max-width: 40ch;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  font-stretch: 87.5%;
+  line-height: 1.15;
+}
+
+.empty a {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 1.125rem;
+  font-weight: 600;
+}

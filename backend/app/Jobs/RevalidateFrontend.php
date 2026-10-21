@@ -19,6 +19,9 @@ class RevalidateFrontend implements ShouldBeUniqueUntilProcessing, ShouldQueue
 
     public int $backoff = 15;
 
+    /** The uniqueness lock expires even if a job is lost, so revalidation can never stall. */
+    public int $uniqueFor = 60;
+
     /**
      * @param  list<string>  $tags
      */

@@ -1,0 +1,41 @@
+.footer {
+  margin-top: 0;
+  background: var(--hitam);
+  color: var(--kapur);
+}
+
+.inner {
+  display: grid;
+  gap: 16px;
+  padding-block: 40px 48px;
+}
+
+.name {
+  font-size: clamp(2.5rem, 9vw, 6rem);
+  font-weight: 900;
+  font-stretch: 75%;
+  line-height: 0.9;
+}
+
+.links {
+  display: flex;
+  gap: 24px;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.note {
+  max-width: 48ch;
+  font-size: var(--size-small);
+}
+
+@media (min-width: 768px) {
+  .inner {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+
+  .note {
+    grid-column: 1 / -1;
+  }
+}

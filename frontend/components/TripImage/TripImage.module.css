@@ -1,0 +1,14 @@
+.picture {
+  display: block;
+  background-color: var(--hitam);
+  background-size: 100% 100%;
+  /* The 24px LQIP is shown as a coarse mosaic behind the photo, not as a blur. */
+  image-rendering: pixelated;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: auto;
+}

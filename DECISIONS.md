@@ -31,3 +31,11 @@ One line each: decision, reason.
 - Settings photo uploads preview their public 480px variant in the admin (custom `getUploadedFileUsing`); originals are never given a URL.
 - Admin delete notifications say "Dihapus" to keep the verb pairs consistent ("Simpan"/"Tersimpan", "Publikasikan"/"Dipublikasikan").
 - The photo/video "stop" select lists the trip's saved stops; new stops appear after the trip is saved (helper text says so).
+- `RevalidateFrontend` has `uniqueFor = 60`: without it a lost job leaves its uniqueness lock behind and that tag set stops revalidating (found while testing).
+- The frontend revalidates tags with `{ expire: 0 }`: the next visit after a change waits for fresh data instead of serving stale content once.
+- Pages are prerendered from the API at build time, so `next build` needs the backend reachable; a failing list fetch fails the build instead of shipping empty pages. The layout alone falls back to the env site name if `/site` is down.
+- Ledger filters are server-rendered links (`?tahun=2025&medan=pantai`), so they work without JavaScript; `/trip` is therefore rendered per request (data fetches stay cached).
+- Ledger rows are full-bleed (rules run edge to edge); a `--inset` token lines their content up with the 1600px column.
+- The LQIP shows as a pixel mosaic (`image-rendering: pixelated` on the picture background) rather than a blur, which the anti-template list forbids.
+- Keyboard focus on a ledger row uses the yellow focus style; the chapter color is the hover state.
+- Undated trips show no year or km in the ledger (the cells stay empty, with screen-reader text).
