@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Chapter } from "@/components/Chapter/Chapter";
-import { getTrip, getTrips } from "@/lib/api";
+import { getMap, getTrip, getTrips } from "@/lib/api";
+import { ghostPath } from "@/lib/geo/ghost";
+import { routeCoordinates } from "@/lib/geo/route";
 
 export async function generateStaticParams() {
   try {
@@ -47,5 +49,17 @@ export default async function TripPage({ params }: PageProps<"/trip/[slug]">) {
     notFound();
   }
 
-  return <Chapter trip={trip} />;
+  // Neighbouring routes for the ghosts behind the previous/next links.
+  const map = await getMap();
+  const ghostOf = (slug: string | undefined) => {
+    const neighbour = map.find((item) => item.slug === slug);
+    return neighbour ? ghostPath(routeCoordinates(neighbour.route_geojson, neighbour.stops)) : null;
+  };
+
+  return (
+    <Chapter
+      trip={trip}
+      ghosts={{ prev: ghostOf(trip.prev?.slug), next: ghostOf(trip.next?.slug) }}
+    />
+  );
 }

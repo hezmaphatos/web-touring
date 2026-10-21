@@ -4,6 +4,7 @@ import "@/styles/global.css";
 import { Footer } from "@/components/Footer/Footer";
 import { Nav } from "@/components/Nav/Nav";
 import { TransitionProvider } from "@/components/Transition/TransitionProvider";
+import { FlexWidth } from "@/lib/motion/FlexWidth";
 import { LenisProvider } from "@/lib/motion/LenisProvider";
 import { OPENING_SESSION_KEY } from "@/lib/motion/opening";
 import { loadSite, SITE_URL } from "@/lib/site";
@@ -54,6 +55,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
               {children}
             </main>
             <Footer site={site} />
+            <FlexWidth />
           </TransitionProvider>
         </LenisProvider>
       </body>

@@ -3,6 +3,7 @@ import type { Photo, Trip, Video } from "@/lib/types";
 import { ChapterFooter } from "./ChapterFooter";
 import { KmMarker } from "./KmMarker";
 import { MediaFlow, placePhotos } from "./MediaFlow";
+import { RideMode } from "./RideMode";
 import { TitleBlock } from "./TitleBlock";
 import styles from "./Chapter.module.css";
 
@@ -25,7 +26,12 @@ function byStop<T extends { stop_id: number | null }>(items: T[], stopIds: Set<n
  * A trip chapter: title block, cover, story with a kilometer post per stop, the stop's
  * photos and videos after its text, the pull quote halfway, then everything unattached.
  */
-export function Chapter({ trip }: { trip: Trip }) {
+export interface Ghosts {
+  prev: string | null;
+  next: string | null;
+}
+
+export function Chapter({ trip, ghosts }: { trip: Trip; ghosts: Ghosts }) {
   const stopIds = new Set(trip.stops.map((stop) => stop.id));
   const photos = byStop<Photo>(trip.photos, stopIds);
   const videos = byStop<Video>(trip.videos, stopIds);
@@ -64,6 +70,8 @@ export function Chapter({ trip }: { trip: Trip }) {
         ))}
 
       <div className={styles.story}>
+        <RideMode trip={trip} />
+
         {trip.description_html && (
           <div className="wrap">
             <div
@@ -98,7 +106,7 @@ export function Chapter({ trip }: { trip: Trip }) {
         <MediaFlow photos={loosePhotos} videos={videos.loose} />
       </div>
 
-      <ChapterFooter prev={trip.prev} next={trip.next} />
+      <ChapterFooter prev={trip.prev} next={trip.next} ghosts={ghosts} />
     </article>
   );
 }

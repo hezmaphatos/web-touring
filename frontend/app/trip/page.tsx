@@ -38,7 +38,7 @@ export default async function TripsPage({ searchParams }: PageProps<"/trip">) {
         <>
           <LedgerFilters years={years} filter={filter} />
           {shown.length > 0 ? (
-            <Ledger trips={shown} />
+            <Ledger trips={shown} preview />
           ) : (
             <div className={`wrap ${styles.empty}`}>
               <p>Tidak ada trip yang cocok dengan saringan ini.</p>

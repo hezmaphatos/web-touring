@@ -94,7 +94,28 @@
 /* Story */
 
 .story {
-  padding-block: 56px 96px;
+  position: relative;
+  padding-block: 0 96px;
+}
+
+@media (min-width: 1024px) {
+  /* Tall enough for the sticky route rail even when the story is short. */
+  .story {
+    min-height: calc(min(56vh, 520px) + 56px + 32px + 96px);
+    padding-top: 56px;
+  }
+
+  /* Photos and the pull quote pass over the route rail. */
+  .media,
+  .quote {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Text stays in columns 2–8, clear of the rail. */
+  .marker {
+    max-width: calc((100% - 11 * var(--gutter)) * 7 / 12 + 6 * var(--gutter));
+  }
 }
 
 .prose {
@@ -397,11 +418,43 @@
 }
 
 .neighbour {
+  position: relative;
+  overflow: hidden;
   display: grid;
   gap: 4px;
   padding: 18px var(--inset) 12px;
   border-bottom: var(--rule);
   text-decoration: none;
+}
+
+.ghost {
+  position: absolute;
+  inset: 8px var(--inset);
+  width: calc(100% - 2 * var(--inset));
+  height: calc(100% - 16px);
+  pointer-events: none;
+}
+
+.ghost path {
+  fill: none;
+  stroke: var(--hitam);
+  stroke-opacity: 0.16;
+  stroke-width: 14;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+@media (hover: hover) {
+  .neighbour:hover .ghost path {
+    stroke: var(--marka);
+    stroke-opacity: 0.5;
+  }
+}
+
+.neighbourLabel,
+.neighbourTitle {
+  position: relative;
 }
 
 .neighbourLabel {

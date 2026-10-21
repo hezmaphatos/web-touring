@@ -58,3 +58,10 @@ One line each: decision, reason.
 - `/peta`: plain wheel scrolls the page; Ctrl/⌘ + wheel (and trackpad pinch), the +/− buttons, or two fingers zoom; one finger scrolls on touch. Otherwise a full-viewport map would trap scrolling above the text list.
 - `/peta` keeps planned trips visible (dashed) regardless of the year scrubber, which only reveals published trips in their numbered order. Each route is a keyboard-focusable button; the text list below reuses the ledger.
 - Builds reuse Next's fetch cache in `.next/cache`; delete `.next/cache/fetch-cache` before a build if prerendered pages must reflect data changed since the last build (a running site is kept fresh by the revalidate webhook).
+- Ride mode progress is mapped straight from the story's scroll position (ScrollTrigger `onUpdate`, linear). The gauge shows on screens 1024px and wider; narrower screens get the 96px route strip pinned under the nav instead. Under reduced motion both show the finished trip.
+- On wide screens the route rail is sticky in columns 9–12 beside text that stays in columns 2–8; full-bleed and right-hand photos and the pull quote pass over it, because photos are the loudest content.
+- The ghosts behind the previous/next links are server-rendered SVG paths (d3-geo on the server), so they cost no JavaScript; one-stop neighbours have no ghost.
+- Velocity width: one root CSS variable (`--wdth`) for every `data-flex-width` element; scrolling down condenses towards 62, up widens towards 125, idle returns to 100. Their heights are locked at wdth 100 so the reflow never moves the page (no CLS from scrolling).
+- The WebGL ledger preview loads its textures through a same-origin Next rewrite (`/media/*` → backend `/storage/*`): WebGL needs CORS-clean images and `artisan serve` sends no CORS headers for static files.
+- The WebGL preview is off under reduced motion as well as on touch and low-end devices; with reduced motion on a desktop the rows are plain links with the hover color. Tap-to-expand is for touch and low-end devices.
+- The ledger preview is enabled only on `/trip`; `/peta` reuses the ledger as its text list without loading `three`.

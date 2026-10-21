@@ -199,3 +199,49 @@
   font-size: 1.125rem;
   font-weight: 600;
 }
+
+/* WebGL preview canvas: one, shared, above the rows and below the nav. */
+.preview {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+/* Touch and low-end: a tapped row opens inline. */
+.expanded {
+  display: grid;
+  border-top: var(--rule);
+}
+
+.expandedImage {
+  border-bottom: var(--rule);
+}
+
+.expandedBody {
+  display: grid;
+  gap: 12px;
+  padding: 16px var(--inset) 20px;
+}
+
+.summary {
+  max-width: 48ch;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.openLink {
+  justify-self: start;
+  padding: 10px 14px;
+  background: var(--marka);
+  color: var(--hitam);
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.openLink:focus-visible {
+  outline-color: var(--kapur);
+}

@@ -1,0 +1,97 @@
+/*
+ * Route strip. Phones: a thin strip pinned under the nav for the whole story.
+ * Wide screens: a sticky map in the right rail (columns 9–12). Photos and the pull quote
+ * pass over it; they are the loudest content.
+ */
+.rail {
+  position: sticky;
+  top: calc(var(--nav-height) + var(--rule-width));
+  z-index: 3;
+  height: 96px;
+  margin-bottom: 40px;
+  border-bottom: var(--rule);
+  background: var(--beton);
+}
+
+.railMap {
+  height: 100%;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+}
+
+@media (min-width: 1024px) {
+  .rail {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: var(--inset);
+    z-index: 1;
+    width: calc((100vw - 2 * var(--inset) - 11 * var(--gutter)) * 4 / 12 + 3 * var(--gutter));
+    max-width: 520px;
+    height: auto;
+    margin: 0;
+    border: 0;
+    background: none;
+    pointer-events: none;
+  }
+
+  .railMap {
+    position: sticky;
+    top: calc(var(--nav-height) + 32px);
+    height: min(56vh, 520px);
+    border: var(--rule);
+    background: var(--beton);
+    pointer-events: auto;
+  }
+}
+
+/* Gauge: wide screens only, visible while the story is on screen. */
+.gauge {
+  position: fixed;
+  top: calc(var(--nav-height) + 32px);
+  bottom: 32px;
+  left: 12px;
+  z-index: 40;
+  display: none;
+  width: 16px;
+  border: var(--rule);
+  background: var(--beton);
+  visibility: hidden;
+}
+
+.gauge.on {
+  visibility: visible;
+}
+
+@media (min-width: 1024px) {
+  .gauge {
+    display: block;
+  }
+}
+
+.fill {
+  height: 100%;
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+.readout {
+  position: absolute;
+  top: -12px;
+  left: 18px;
+  padding: 3px 6px 2px;
+  background: var(--hitam);
+  color: var(--kapur);
+  font-size: var(--size-small);
+  font-weight: 600;
+  font-stretch: 87.5%;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.readout:empty {
+  display: none;
+}
