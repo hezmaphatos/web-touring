@@ -65,3 +65,8 @@ One line each: decision, reason.
 - The WebGL ledger preview loads its textures through a same-origin Next rewrite (`/media/*` → backend `/storage/*`): WebGL needs CORS-clean images and `artisan serve` sends no CORS headers for static files.
 - The WebGL preview is off under reduced motion as well as on touch and low-end devices; with reduced motion on a desktop the rows are plain links with the hover color. Tap-to-expand is for touch and low-end devices.
 - The ledger preview is enabled only on `/trip`; `/peta` reuses the ledger as its text list without loading `three`.
+- Garage "brand": the data model has no brand column, so the brand goes in the part name or the note; the table shows part, category, install date and note.
+- Garage hotspot detail opens beside its square on screens 768px and wider (to the left when the square sits in the right 45%), and under the photo on phones; focus moves to the detail and returns to the square on close or Escape.
+- Statistics facts read as "number + plain label" rows ("612,5 kilometer ditempuh"); a missing highest point shows "–". Years without dates are left out of the km-per-year bars, with a hint when no trip is dated yet.
+- Next ride draws its dashed routes once on load (the shared route draw), instantly under reduced motion; the about page has no motion besides the page transition.
+- The about page shows the bike name as a link to the garage and the YouTube/Instagram links as plain sentences.

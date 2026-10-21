@@ -1,0 +1,79 @@
+.head {
+  display: grid;
+  gap: 8px;
+  padding-block: 32px 24px;
+}
+
+.heading {
+  font-size: var(--size-h2);
+  font-weight: 900;
+  font-stretch: 75%;
+  line-height: 0.85;
+}
+
+.count {
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-stretch: 87.5%;
+}
+
+.map {
+  height: min(60svh, 620px);
+  min-height: 300px;
+  border-block: var(--rule);
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+}
+
+.list {
+  padding-bottom: 96px;
+}
+
+.item {
+  padding-block: 24px 32px;
+  border-bottom: var(--rule);
+}
+
+.meta {
+  font-size: 1rem;
+  font-weight: 600;
+  font-stretch: 87.5%;
+}
+
+.title {
+  margin-top: 6px;
+  font-size: clamp(2.5rem, 8vw, 7rem);
+  font-weight: 900;
+  line-height: 0.88;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.when {
+  margin-top: 14px;
+  font-size: clamp(1.5rem, 3.4vw, 3rem);
+  font-weight: 600;
+  font-stretch: 87.5%;
+  line-height: 1.05;
+}
+
+.note {
+  max-width: 62ch;
+  margin-top: 16px;
+  font-family: var(--font-story);
+  font-size: var(--size-body);
+  line-height: 1.6;
+}
+
+.note > * + * {
+  margin-top: 1em;
+}
+
+.stops {
+  margin-top: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+}

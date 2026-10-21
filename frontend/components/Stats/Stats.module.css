@@ -1,0 +1,96 @@
+.head {
+  padding-block: 32px 24px;
+}
+
+.heading {
+  font-size: var(--size-h2);
+  font-weight: 900;
+  font-stretch: 75%;
+  line-height: 0.85;
+}
+
+/* A ruled list of facts, each a huge number. No stat cards. */
+.facts {
+  border-top: var(--rule);
+}
+
+.fact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 20px;
+  padding: 10px var(--inset) 8px;
+  border-bottom: var(--rule);
+}
+
+.value {
+  order: -1;
+  font-size: var(--size-data);
+  font-weight: 600;
+  font-stretch: 87.5%;
+  line-height: 0.95;
+  white-space: nowrap;
+}
+
+.label {
+  order: 1;
+  font-size: clamp(1.125rem, 2.2vw, 2rem);
+  font-weight: 600;
+  font-stretch: 87.5%;
+}
+
+/* Kilometers per year */
+
+.years {
+  padding-block: 56px 96px;
+}
+
+.yearsHeading {
+  margin-bottom: 24px;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 900;
+  font-stretch: 75%;
+  line-height: 0.9;
+}
+
+.empty {
+  padding-block: 24px;
+  border-top: var(--rule);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.chartScroll {
+  overflow-x: auto;
+  border-bottom: var(--rule);
+}
+
+.chart {
+  display: block;
+  max-width: none;
+}
+
+.baseline {
+  stroke: var(--hitam);
+  stroke-width: 3;
+}
+
+.bar {
+  fill: var(--hitam);
+}
+
+.barValue,
+.barYear {
+  fill: var(--hitam);
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.barValue {
+  font-size: 16px;
+  font-stretch: 87.5%;
+}
+
+.barYear {
+  font-size: 18px;
+}
