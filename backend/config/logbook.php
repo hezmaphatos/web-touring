@@ -15,4 +15,7 @@ return [
     // Generate AVIF variants next to WebP when GD supports it.
     'avif' => (bool) env('MEDIA_AVIF', true),
 
+    // Longest side of stored originals in px; 0 keeps uploads as they are. Saves disk on small hosts.
+    'original_max_size' => (int) env('ORIGINAL_MAX_SIZE', 0),
+
 ];

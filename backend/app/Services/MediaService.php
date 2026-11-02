@@ -196,6 +196,36 @@ class MediaService
     }
 
     /**
+     * Shrinks a private original to ORIGINAL_MAX_SIZE (longest side) in place, if it is larger.
+     * Returns the new size in bytes, or null when nothing changed.
+     */
+    public function shrinkOriginal(string $disk, string $path): ?int
+    {
+        $max = (int) config('logbook.original_max_size');
+        $storage = Storage::disk($disk);
+        $contents = $max > 0 ? $storage->get($path) : null;
+        $size = $contents === null ? false : getimagesizefromstring($contents);
+
+        if ($size === false || max($size[0], $size[1]) <= $max) {
+            return null;
+        }
+
+        $temporary = storage_path('app/tmp/'.Str::random(16));
+        File::ensureDirectoryExists($temporary);
+
+        try {
+            $file = $temporary.'/original.'.strtolower(pathinfo($path, PATHINFO_EXTENSION));
+            file_put_contents($file, $contents);
+            Image::load($file)->fit(Fit::Max, $max, $max)->quality(85)->save($file);
+            $storage->put($path, file_get_contents($file));
+
+            return (int) filesize($file);
+        } finally {
+            File::deleteDirectory($temporary);
+        }
+    }
+
+    /**
      * Removes a settings photo: the private original and its public variants.
      */
     public function deleteStoredImage(string $originalPath): void

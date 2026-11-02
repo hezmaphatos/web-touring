@@ -85,6 +85,7 @@ class SiteService
             }
 
             if ($value !== null) {
+                $this->media->shrinkOriginal('originals', $value);
                 ProcessSettingPhoto::dispatch($value);
             }
         }

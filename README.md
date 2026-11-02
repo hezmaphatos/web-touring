@@ -127,6 +127,41 @@ Two apps, typically on two hostnames, for example `api.example.com` (backend) an
 3. Content updates arrive through `POST /api/revalidate` (called by the backend's queue). The page cache lives on the server's disk, so run a single instance (or share the cache) for the webhook to reach every copy. Builds reuse `.next/cache`; delete `.next/cache/fetch-cache` first if a fresh build must not reuse data fetched by the previous one.
 4. `/media/*` is proxied to the backend's `/storage/*` so the WebGL ledger preview gets same-origin textures.
 
+## Free hosting: alwaysdata (backend) + Vercel (frontend)
+
+The setup used for the live site. Deploy the backend first: the Vercel build reads the API.
+
+### Backend on alwaysdata (free plan: 1 GB disk, 256 MB RAM)
+
+1. Panel > Databases > MySQL: create a database and a user. The host is `mysql-<account>.alwaysdata.net`.
+2. Panel > Environment > PHP: version 8.4. PHP settings (php.ini): `upload_max_filesize = 30M`, `post_max_size = 64M`, `memory_limit = 256M`.
+3. Over SSH (`ssh <account>@ssh-<account>.alwaysdata.net`):
+
+   ```sh
+   git clone https://github.com/hezmaphatos/web-touring.git ~/web-touring
+   cd ~/web-touring/backend
+   composer install --no-dev --optimize-autoloader
+   cp .env.example .env    # fill it in, see below
+   php artisan key:generate
+   php artisan migrate --force && php artisan storage:link
+   php artisan db:seed --force          # first deploy only
+   php artisan app:create-admin
+   php artisan config:cache && php artisan route:cache && php artisan view:cache
+   ```
+
+4. `.env`: the production values from the table in "Deploy" plus `MEDIA_AVIF=false` and `ORIGINAL_MAX_SIZE=2400` (keeps each photo around 1 MB on the 1 GB disk), `DB_HOST=mysql-<account>.alwaysdata.net`, and the Vercel address in `FRONTEND_URL` / `FRONTEND_REVALIDATE_URL`.
+5. Panel > Web > Sites > Add: type PHP, address of your choice on the account, root directory `/home/<account>/web-touring/backend/public`. Force HTTPS.
+6. Panel > Advanced > Scheduled tasks: every minute, command
+   `cd ~/web-touring/backend && php artisan queue:work --stop-when-empty --max-time=50`
+   (image variants and the revalidation webhook; content shows on the site within about a minute).
+7. Updating later: `cd ~/web-touring && git pull && cd backend && composer install --no-dev --optimize-autoloader && php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan view:cache`.
+
+### Frontend on Vercel (Hobby plan)
+
+1. Import the GitHub repository. Root Directory: `frontend`. Framework: Next.js (detected).
+2. Environment variables: `API_URL` and `NEXT_PUBLIC_API_URL` = `https://<backend address>/api/v1`, `NEXT_PUBLIC_SITE_URL` = the Vercel address, `REVALIDATE_SECRET` = the backend's value, `SITE_NAME`.
+3. Deploy. Every push to `main` redeploys; content edits never need a redeploy (the backend calls `/api/revalidate`).
+
 ## Map data
 
 `frontend/public/geo/indonesia-admin1.topo.json` (about 130 KB) is Natural Earth 10m admin-1, filtered to Indonesia and simplified. To rebuild it:
