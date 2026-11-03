@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const apiUrl = process.env.API_URL ?? "http://localhost:8000/api/v1";
-const backendOrigin = new URL(apiUrl).origin;
+// Backend base URL, including a sub-path if it is hosted under one (e.g. https://host/touring).
+const backendOrigin = apiUrl.replace(/\/api\/v1\/?$/, "");
 
 const nextConfig: NextConfig = {
   async rewrites() {

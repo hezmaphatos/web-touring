@@ -84,3 +84,4 @@ One line each: decision, reason.
 - `ORIGINAL_MAX_SIZE` (default 0 = spec behaviour) shrinks stored originals to a longest side in px right after upload, before variants are made; production uses 2400 with `MEDIA_AVIF=false`, about 1 MB per photo on the small free disk. Originals stay private.
 - The queue runs from an alwaysdata scheduled task every minute (`queue:work --stop-when-empty`) instead of a permanent worker, to stay within the free plan's resources; changes reach the site within about a minute.
 - Laravel trusts proxy headers (`trustProxies('*')`) so URLs and Filament assets stay on https behind the host's proxy.
+- The backend is served under a sub-path (`yehezkiel.alwaysdata.net/touring`): alwaysdata gives one free address per account and it already hosts another site. `SESSION_PATH=/touring` keeps its cookies apart, and the `/media` proxy keeps the sub-path.
